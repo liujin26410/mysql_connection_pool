@@ -16,6 +16,7 @@ int main()
     SetConsoleOutputCP(CP_UTF8); // 设置控制台输出代码页为UTF-8
     #endif
 
+    std::cout << "Hello, 世界!" << std::endl;
     system("pause");
     return 0;
 }
