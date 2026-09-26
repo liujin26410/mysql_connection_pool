@@ -20,3 +20,23 @@ bool mysqlConnection::connect(std::string const &ip, unsigned short port,
                          dbname.c_str(), port, nullptr, 0);
   return p != nullptr;
 }
+
+bool mysqlConnection::update(std::string const &sql) {
+  if (mysql_query(_conn, sql.c_str())) {
+    return false;
+  }
+  return true;
+}
+
+MYSQL_RES *mysqlConnection::query(std::string const &sql) {
+  if (mysql_query(_conn, sql.c_str())) {
+    return nullptr;
+  }
+  return mysql_use_result(_conn);
+}
+
+void mysqlConnection::refreshAliveTime() { this->_alivetime = clock(); }
+
+clock_t mysqlConnection::getAliveTime() const {
+  return clock() - this->_alivetime;
+}
