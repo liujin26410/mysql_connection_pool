@@ -30,9 +30,14 @@ bool mysqlConnection::update(std::string const &sql) {
 
 MYSQL_RES *mysqlConnection::query(std::string const &sql) {
   if (mysql_query(_conn, sql.c_str())) {
+    std::cout << "mysql_query失败：" << mysql_error(_conn) << std::endl;
     return nullptr;
   }
-  return mysql_use_result(_conn);
+  MYSQL_RES *res = mysql_store_result(_conn);
+  if (res == nullptr) {
+    std::cout << "mysql_store_result失败：" << mysql_error(_conn) << std::endl;
+  }
+  return res;
 }
 
 void mysqlConnection::refreshAliveTime() { this->_alivetime = clock(); }
